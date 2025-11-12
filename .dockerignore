@@ -1,0 +1,65 @@
+# Git相关
+.git
+.gitignore
+
+# 构建输出
+output/
+bin/
+*.exe
+
+# 开发工具配置
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# 日志文件
+*.log
+logs/
+
+# 环境配置文件
+.env
+.env.local
+.env.dev
+.env.prod
+
+# 临时文件
+tmp/
+temp/
+.tmp
+
+# 测试覆盖文件
+*.out
+coverage.txt
+
+# 依赖包缓存
+vendor/
+
+# OS生成的文件
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 文档
+README.md
+*.md
+docs/
+
+# 脚本文件（如果不需要在容器中）
+scripts/
+*.sh
+
+# 测试文件
+*_test.go
+test/
+tests/
+
+# Docker相关文件
+Dockerfile*
+docker-compose*.yml
+.dockerignore
