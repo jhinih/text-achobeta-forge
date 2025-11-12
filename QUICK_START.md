@@ -80,6 +80,36 @@ docker-compose ps mysql
 docker-compose exec mysql mysql -u fortest -p
 ```
 
+## 🐳 Docker Hub 镜像
+
+我们的CI/CD会自动将镜像推送到Docker Hub：
+
+```bash
+# 拉取最新镜像
+docker pull jhinih/compete_cloud_app_back:latest
+
+# 拉取特定版本
+docker pull jhinih/compete_cloud_app_back:v1.0.0
+```
+
+## 🔧 GitHub Secrets 配置
+
+要让CI/CD正常工作，请在GitHub仓库中配置以下Secrets：
+
+```
+DOCKER_HUB_PASSWORD=你的Docker Hub密码或Token
+```
+
+## 📚 工作流配置
+
+项目包含三个GitHub Actions工作流：
+
+| 文件 | 用途 | 触发条件 |
+|------|------|----------|
+| `ci.yml` | 完整CI流程 | 推送到master/develop分支 |
+| `docker.yml` | 简化Docker构建 | 推送到master分支 |
+| `cd.yml` | 生产部署 | 创建版本标签 |
+
 ## 📚 详细文档
 
 完整的部署和配置指南请参考：[DOCKER_CICD_GUIDE.md](./DOCKER_CICD_GUIDE.md)
