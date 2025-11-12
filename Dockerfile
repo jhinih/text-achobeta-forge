@@ -27,8 +27,8 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
 # Stage 2: Production stage
 FROM alpine:latest
 
-# 安装必要的包
-RUN apk --no-cache add ca-certificates tzdata
+# 安装必要的包，包含curl用于健康检查
+RUN apk --no-cache add ca-certificates tzdata curl
 
 # 创建非root用户
 RUN adduser -D -g '' appuser
@@ -39,7 +39,7 @@ WORKDIR /app
 # 复制构建的二进制文件
 COPY --from=builder /app/achobeta.server.forge .
 
-# 复制配置文件
+# 复制配置文件和模板文件
 COPY --from=builder /app/conf ./conf/
 COPY --from=builder /app/template ./template/
 
@@ -52,12 +52,12 @@ RUN chown -R appuser:appuser /app
 # 切换到非root用户
 USER appuser
 
-# 暴露端口（根据你的应用配置调整）
+# 暴露端口
 EXPOSE 8080
 
-# 健康检查
+# 健康检查（使用curl替代wget）
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD wget --no-verbose --tries=1 --spider http://localhost:8080/health || exit 1
+    CMD curl -f http://localhost:8080/health || exit 1
 
 # 运行应用程序
 CMD ["./achobeta.server.forge"]

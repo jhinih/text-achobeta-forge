@@ -86,10 +86,7 @@ docker-compose exec mysql mysql -u fortest -p
 
 ```bash
 # 拉取最新镜像
-docker pull jhinih/compete_cloud_app_back:latest
-
-# 拉取特定版本
-docker pull jhinih/compete_cloud_app_back:v1.0.0
+docker pull jhinih/text-achobeta-forge:latest
 ```
 
 ## 🔧 GitHub Secrets 配置
@@ -102,13 +99,11 @@ DOCKER_HUB_PASSWORD=你的Docker Hub密码或Token
 
 ## 📚 工作流配置
 
-项目包含三个GitHub Actions工作流：
+项目包含简化的GitHub Actions工作流：
 
 | 文件 | 用途 | 触发条件 |
 |------|------|----------|
-| `ci.yml` | 完整CI流程 | 推送到master/develop分支 |
-| `docker.yml` | 简化Docker构建 | 推送到master分支 |
-| `cd.yml` | 生产部署 | 创建版本标签 |
+| `docker.yml` | 简化Docker构建并推送 | 推送到master分支 |
 
 ## 📚 详细文档
 
