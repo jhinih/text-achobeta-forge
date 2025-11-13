@@ -31,8 +31,8 @@ jobs:
             docker rm text-achobeta-forge-app || true
             docker run -d --name text-achobeta-forge-app --restart unless-stopped \
               -p 8080:8080 \
-              -v /app/text-achobeta-forge/conf:/app/conf \
-              -v /app/text-achobeta-forge/template:/app/template \
+              -v "$(pwd)/conf:/app/conf" \
+              -v "$(pwd)/template:/app/template" \
               jhinih/text-achobeta-forge:latest
             docker image prune -f
             echo "部署完成"

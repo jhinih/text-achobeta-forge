@@ -1,32 +1,32 @@
-name: Simple CI/CD
-
-on:
-  push:
-    branches: [ "master" ]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Build and push image
-        run: |
-          docker build -t jhinih/text-achobeta-forge:latest .
-          echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u jhinih --password-stdin
-          docker push jhinih/text-achobeta-forge:latest
-
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Deploy to server
-        run: |
-          ssh -i ~/.ssh/deploy_key -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
-            "cd /app/text-achobeta-forge && \
-             git pull && \
-             docker-compose --profile app up -d && \
-             docker image prune -f"
+#name: Simple CI/CD
+#
+#on:
+#  push:
+#    branches: [ "master" ]
+#
+#jobs:
+#  deploy:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#
+#      - name: Build and push image
+#        run: |
+#          docker build -t jhinih/text-achobeta-forge:latest .
+#          echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u jhinih --password-stdin
+#          docker push jhinih/text-achobeta-forge:latest
+#
+#      - name: Setup SSH
+#        run: |
+#          mkdir -p ~/.ssh
+#          echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/deploy_key
+#          chmod 600 ~/.ssh/deploy_key
+#          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+#
+#      - name: Deploy to server
+#        run: |
+#          ssh -i ~/.ssh/deploy_key -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
+#            "cd /app/text-achobeta-forge && \
+#             git pull && \
+#             docker-compose --profile app up -d && \
+#             docker image prune -f"

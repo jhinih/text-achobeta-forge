@@ -94,9 +94,9 @@ func loadUserService(r *gin.RouterGroup) {
 	// [POST] /api/biz/v1/user/reset_password
 	r.Handle(POST, "reset_password", ResetPassword())
 
-	//回显version
-	// [GET] /api/biz/v1/user/reset_password
-	r.Handle(POST, "version", GetVersion())
+	//回显版本
+	// [GET] /api/biz/v1/user/version
+	r.Handle(GET, "version", GetVersion())
 }
 
 func loadUserAuthService(r *gin.RouterGroup) {
