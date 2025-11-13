@@ -44,10 +44,11 @@ class DeployHandler(BaseHTTPRequestHandler):
     def deploy_container(self):
         """部署容器"""
         commands = [
+            "cd /app/text-achobeta-forge && git pull",  # 更新代码和配置
             "docker pull jhinih/text-achobeta-forge:latest",
             "docker stop text-achobeta-forge-app || true",
             "docker rm text-achobeta-forge-app || true",
-            "docker run -d --name text-achobeta-forge-app --restart unless-stopped -p 8080:8080 jhinih/text-achobeta-forge:latest",
+            "docker run -d --name text-achobeta-forge-app --restart unless-stopped -p 8080:8080 -v /app/text-achobeta-forge/conf:/app/conf -v /app/text-achobeta-forge/template:/app/template jhinih/text-achobeta-forge:latest",
             "docker image prune -f"
         ]
 

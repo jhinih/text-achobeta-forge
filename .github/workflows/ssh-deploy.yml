@@ -1,0 +1,38 @@
+name: SSH Deploy
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build and push image
+        run: |
+          docker build -t jhinih/text-achobeta-forge:latest .
+          echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u jhinih --password-stdin
+          docker push jhinih/text-achobeta-forge:latest
+
+      - name: Deploy to server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host:  ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          script: |
+            cd /app/text-achobeta-forge
+            git pull
+            docker pull jhinih/text-achobeta-forge:latest
+            docker stop text-achobeta-forge-app || true
+            docker rm text-achobeta-forge-app || true
+            docker run -d --name text-achobeta-forge-app --restart unless-stopped \
+              -p 8080:8080 \
+              -v /app/text-achobeta-forge/conf:/app/conf \
+              -v /app/text-achobeta-forge/template:/app/template \
+              jhinih/text-achobeta-forge:latest
+            docker image prune -f
+            echo "部署完成"

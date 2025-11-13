@@ -26,8 +26,7 @@ jobs:
       - name: Deploy to server
         run: |
           ssh -i ~/.ssh/deploy_key -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
-            "docker pull jhinih/text-achobeta-forge:latest && \
-             docker stop text-achobeta-forge-app || true && \
-             docker rm text-achobeta-forge-app || true && \
-             docker run -d --name text-achobeta-forge-app --restart unless-stopped -p 8080:8080 jhinih/text-achobeta-forge:latest && \
+            "cd /app/text-achobeta-forge && \
+             git pull && \
+             docker-compose --profile app up -d && \
              docker image prune -f"
