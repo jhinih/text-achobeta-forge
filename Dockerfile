@@ -39,10 +39,8 @@ WORKDIR /app
 # 复制构建的二进制文件
 COPY --from=builder /app/achobeta.server.forge .
 
-# 创建目录并复制配置文件和模板文件
-RUN mkdir -p ./conf ./template
-COPY conf/config.yaml ./conf/
-COPY template/ ./template/
+# 复制配置文件和模板文件（通过数据卷挂载方式）
+# 在部署时将配置文件挂载到 /app/conf 目录
 
 
 # 确保二进制文件可执行

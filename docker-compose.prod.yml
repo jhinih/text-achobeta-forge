@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: forge_app_prod
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./conf:/app/conf:ro  # 只读挂载
+      - ./template:/app/template:ro
+      - ./logs:/app/logs
+    environment:
+      - APP_ENV=production
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - forge_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  mysql:
+    image: mysql:8.0
+    container_name: forge_mysql_prod
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_prod_data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d:ro
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - forge_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: forge_redis_prod
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_prod_data:/data
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    networks:
+      - forge_network
+
+volumes:
+  mysql_prod_data:
+  redis_prod_data:
+
+networks:
+  forge_network:
+    driver: bridge

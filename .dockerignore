@@ -63,3 +63,7 @@ tests/
 Dockerfile*
 docker-compose*.yml
 .dockerignore
+
+# 确保这些目录被包含
+!conf/
+!template/
