@@ -17,9 +17,6 @@ RUN go mod download
 # 复制源代码
 COPY . .
 
-# 调试：检查文件结构
-RUN ls -la && ls -la conf/
-
 # 构建应用程序
 # 禁用CGO以获得静态二进制文件
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
@@ -42,12 +39,11 @@ WORKDIR /app
 # 复制构建的二进制文件
 COPY --from=builder /app/achobeta.server.forge .
 
-# 复制配置文件和模板文件
-COPY --from=builder /app/conf/config.yaml ./conf/
-COPY --from=builder /app/template ./template
+# 创建目录并复制配置文件和模板文件
+RUN mkdir -p ./conf ./template
+COPY conf/config.yaml ./conf/
+COPY template/ ./template/
 
-# 调试：检查复制后的文件结构
-RUN echo "=== Files copied to production stage ===" && ls -la
 
 # 确保二进制文件可执行
 RUN chmod +x /app/achobeta.server.forge
