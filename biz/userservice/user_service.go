@@ -312,6 +312,11 @@ func (u *UserServiceImpl) ResetPassword(ctx context.Context, req *types.ResetPas
 	return nil
 }
 
+// GetVersion 回显版本
+func (u *UserServiceImpl) GetVersion(ctx context.Context, req *types.GetVersionParams) error {
+	return nil
+}
+
 // GetUserByID 根据用户ID获取用户信息（用于JWT鉴权等场景）
 func (u *UserServiceImpl) GetUserByID(ctx context.Context, userID string) (*entity.User, error) {
 	// 参数校验

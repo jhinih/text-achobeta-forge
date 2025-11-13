@@ -93,6 +93,10 @@ func loadUserService(r *gin.RouterGroup) {
 	// 重置密码接口
 	// [POST] /api/biz/v1/user/reset_password
 	r.Handle(POST, "reset_password", ResetPassword())
+
+	//回显version
+	// [GET] /api/biz/v1/user/reset_password
+	r.Handle(POST, "version", GetVersion())
 }
 
 func loadUserAuthService(r *gin.RouterGroup) {

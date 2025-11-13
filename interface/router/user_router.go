@@ -238,6 +238,29 @@ func ResetPassword() gin.HandlerFunc {
 	}
 }
 
+// GetVersion
+//
+//	@Description:[GET] /api/biz/v1/user/version
+//	@return gin.HandlerFunc
+func GetVersion() gin.HandlerFunc {
+	return func(gCtx *gin.Context) {
+		req := &def.GetVersionReq{}
+		// 统一从 gin 上下文取出 request 的 context
+		ctx := gCtx.Request.Context()
+		if err := gCtx.ShouldBindJSON(req); err != nil {
+			gCtx.JSON(http.StatusOK, response.JsonMsgResult{
+				Code:    response.INVALID_PARAMS.Code,
+				Message: response.INVALID_PARAMS.Msg,
+				Data:    def.GetVersionResp{Version: "V0.0.1有bug"},
+			})
+			return
+		}
+
+		rsp, err := handler.GetHandler().GetVersion(ctx, req)
+		handleHandlerResponse(gCtx, rsp, err, def.GetVersionResp{Version: "V0.0.1"})
+	}
+}
+
 // GetHome
 //
 //	@Description:[GET] /api/biz/v1/user/home

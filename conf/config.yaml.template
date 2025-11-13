@@ -3,6 +3,7 @@ app:
   host: 127.0.0.1
   env: dev
   logfiles: /logs
+  version: V0.0.1
 
 database:
   driver: mysql

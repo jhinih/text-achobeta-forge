@@ -62,6 +62,14 @@ type ResetPasswordResp struct {
 	Success bool `json:"success"`
 }
 
+//---------查看版本-----------
+type GetVersionReq struct {
+}
+
+type GetVersionResp struct {
+	Version string `json:"version"`
+}
+
 //---------更新头像-----------
 type UpdateAvatarReq struct {
 	FileData []byte `json:"-"`        // 文件内容

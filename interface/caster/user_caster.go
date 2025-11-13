@@ -102,6 +102,14 @@ func CastResetPasswordReq2Params(req *def.ResetPasswordReq) *types.ResetPassword
 	}
 }
 
+// CastGetVersionReq2Params： DTO -> Service 层参数表单转换
+func CastGetVersionReq2Params(req *def.GetVersionReq) *types.GetVersionParams {
+	if req == nil {
+		return nil
+	}
+	return &types.GetVersionParams{}
+}
+
 // CastUpdateAccountReq2Params： DTO -> Service 层参数表单转换
 func CastUpdateAccountReq2Params(req *def.UpdateAccountReq) *types.UpdateAccountParams {
 	if req == nil {

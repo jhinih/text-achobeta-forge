@@ -12,6 +12,8 @@ type IHandler interface {
 	Register(ctx context.Context, req *def.RegisterReq) (rsp *def.RegisterResp, err error)
 	// ResetPassword: 重置密码
 	ResetPassword(ctx context.Context, req *def.ResetPasswordReq) (rsp *def.ResetPasswordResp, err error)
+	// GetVersion: 回显版本
+	GetVersion(ctx context.Context, req *def.GetVersionReq) (rsp *def.GetVersionResp, err error)
 	// SendCode: 发送验证码  ！邮件！
 	SendCode(ctx context.Context, req *def.SendVerificationCodeReq) (rsp *def.SendVerificationCodeResp, err error)
 	// GetHome: 个人主页

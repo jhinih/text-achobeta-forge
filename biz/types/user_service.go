@@ -14,6 +14,9 @@ type IUserService interface {
 	// ResetPassword 重置密码
 	ResetPassword(ctx context.Context, req *ResetPasswordParams) error
 
+	// GetVersion 回显版本
+	GetVersion(ctx context.Context, req *GetVersionParams) error
+
 	// GetUserByID 根据用户ID获取用户信息（用于JWT鉴权等场景）
 	GetUserByID(ctx context.Context, userID string) (*entity.User, error)
 
@@ -50,6 +53,11 @@ type ResetPasswordParams struct {
 	Code            string
 	NewPassword     string
 	ConfirmPassword string
+}
+
+// 回显版本
+type GetVersionParams struct {
+	Version string
 }
 
 // 更新联系方式参数
