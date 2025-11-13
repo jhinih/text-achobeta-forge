@@ -257,7 +257,7 @@ func GetVersion() gin.HandlerFunc {
 		}
 
 		rsp, err := handler.GetHandler().GetVersion(ctx, req)
-		handleHandlerResponse(gCtx, rsp, err, def.GetVersionResp{Version: "V0.0.1"})
+		handleHandlerResponse(gCtx, rsp, err, def.GetVersionResp{Version: rsp.Version})
 	}
 }
 

@@ -133,6 +133,7 @@ type ApplicationConfig struct {
 	Port        int    `mapstructure:"port"`
 	Env         string `mapstructure:"env"`
 	LogfilePath string `mapstructure:"logfilePath"`
+	Version     string `mapstructure:"version"`
 }
 type LoggerConfig struct {
 	Level    int8   `mapstructure:"level"`

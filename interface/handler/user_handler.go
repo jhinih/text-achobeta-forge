@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"forge/infra/configs"
 
 	// "forge/constant"
 	"forge/biz/entity"
@@ -80,17 +81,17 @@ func (h *Handler) ResetPassword(ctx context.Context, req *def.ResetPasswordReq) 
 	return rsp, nil
 }
 func (h *Handler) GetVersion(ctx context.Context, req *def.GetVersionReq) (rsp *def.GetVersionResp, err error) {
-	// DTO -> Service 层表单
-	params := caster.CastGetVersionReq2Params(req)
-
-	// 向下调用服务层（验证码验证在 service 层完成）
-	err = h.UserService.GetVersion(ctx, params)
-	if err != nil {
-		return nil, err
-	}
+	//// DTO -> Service 层表单
+	//params := caster.CastGetVersionReq2Params(req)
+	//
+	//// 向下调用服务层（验证码验证在 service 层完成）
+	//err = h.UserService.GetVersion(ctx, params)
+	//if err != nil {
+	//	return nil, err
+	//}
 
 	rsp = &def.GetVersionResp{
-		Version: "V0.0.1",
+		Version: configs.Config().GetAppConfig().Version,
 	}
 	return rsp, nil
 }

@@ -35,7 +35,7 @@ type LoginResp struct {
 	Success  bool   `json:"success"`             // 登录是否成功
 }
 
-//---------注册相关------------
+// ---------注册相关------------
 // 注册：用户名 + 手机号/邮箱 + 验证码 + 设置密码
 type RegisterReq struct {
 	UserName    string `json:"user_name"`
@@ -49,7 +49,7 @@ type RegisterResp struct {
 	Success bool `json:"success"` // 注册是否成功
 }
 
-//---------重置密码-----------
+// ---------重置密码-----------
 type ResetPasswordReq struct {
 	Account         string `json:"account"`
 	AccountType     string `json:"account_type"` // 手机号或邮箱
@@ -62,7 +62,7 @@ type ResetPasswordResp struct {
 	Success bool `json:"success"`
 }
 
-//---------查看版本-----------
+// ---------查看版本-----------
 type GetVersionReq struct {
 }
 
@@ -70,7 +70,7 @@ type GetVersionResp struct {
 	Version string `json:"version"`
 }
 
-//---------更新头像-----------
+// ---------更新头像-----------
 type UpdateAvatarReq struct {
 	FileData []byte `json:"-"`        // 文件内容
 	Filename string `json:"filename"` // 文件名
@@ -81,7 +81,7 @@ type UpdateAvatarResp struct {
 	Success   bool   `json:"success"`    // 更新是否成功
 }
 
-//---------发送验证码-----------
+// ---------发送验证码-----------
 type SendVerificationCodeReq struct {
 	Account     string `json:"account"`      // 账号（手机号或邮箱）  目前只支持邮箱 邮件收取验证码
 	AccountType string `json:"account_type"` // 账号类型：phone（手机号）或 email（邮箱）
@@ -92,7 +92,7 @@ type SendVerificationCodeResp struct {
 	Success bool `json:"success"` // 发送是否成功
 }
 
-//---------个人主页-----------
+// ---------个人主页-----------
 type GetHomeResp struct {
 	UserName    string `json:"user_name"`        // 用户名
 	Avatar      string `json:"avatar,omitempty"` // 头像URL
@@ -101,7 +101,7 @@ type GetHomeResp struct {
 	HasPassword bool   `json:"has_password"`     // 是否有密码
 }
 
-//---------更新联系方式（绑定/换绑）-----------
+// ---------更新联系方式（绑定/换绑）-----------
 type UpdateAccountReq struct {
 	Account     string `json:"account"`      // 新手机号/邮箱
 	AccountType string `json:"account_type"` // 账号类型：phone（手机号）或 email（邮箱）
@@ -114,7 +114,7 @@ type UpdateAccountResp struct {
 	Account string `json:"account"` // 更新后的联系方式
 }
 
-//---------解绑联系方式-----------
+// ---------解绑联系方式-----------
 type UnbindAccountReq struct {
 	Account     string `json:"account"`      // 需要解绑的手机号/邮箱
 	AccountType string `json:"account_type"` // 账号类型：phone（手机号）或 email（邮箱）
