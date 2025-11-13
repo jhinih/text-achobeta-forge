@@ -40,8 +40,8 @@ WORKDIR /app
 COPY --from=builder /app/achobeta.server.forge .
 
 # 复制配置文件和模板文件
-COPY --from=builder /app/conf ./conf/
-COPY --from=builder /app/template ./template/
+COPY --from=builder /app/conf ./conf
+COPY --from=builder /app/template ./template
 
 # 确保二进制文件可执行
 RUN chmod +x /app/achobeta.server.forge
