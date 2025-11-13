@@ -10,23 +10,24 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Build and Deploy
+      - name: Build and push image
         run: |
-          # 构建镜像
           docker build -t jhinih/text-achobeta-forge:latest .
-
-          # 登录并推送
           echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u jhinih --password-stdin
           docker push jhinih/text-achobeta-forge:latest
 
-          # 部署到服务器（使用密码登录）
-          sudo apt-get update
-          sudo apt-get install -y sshpass
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
 
-          sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} '
-            docker pull jhinih/text-achobeta-forge:latest
-            docker stop text-achobeta-forge-app || true
-            docker rm text-achobeta-forge-app || true
-            docker run -d --name text-achobeta-forge-app --restart unless-stopped -p 8080:8080 jhinih/text-achobeta-forge:latest
-            docker image prune -f
-          '
+      - name: Deploy to server
+        run: |
+          ssh -i ~/.ssh/deploy_key -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
+            "docker pull jhinih/text-achobeta-forge:latest && \
+             docker stop text-achobeta-forge-app || true && \
+             docker rm text-achobeta-forge-app || true && \
+             docker run -d --name text-achobeta-forge-app --restart unless-stopped -p 8080:8080 jhinih/text-achobeta-forge:latest && \
+             docker image prune -f"
